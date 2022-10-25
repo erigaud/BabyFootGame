@@ -7,6 +7,7 @@ public class GoalTrigger : MonoBehaviour
     public TextMeshProUGUI scoreText;
     private void OnTriggerExit(Collider other)
     {
+        GameManager.instance.DestroyBall();
         GameManager.instance.AddSideScore(scoreText);
     }
 }

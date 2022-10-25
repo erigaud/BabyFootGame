@@ -8,6 +8,9 @@ public class GameManager : MonoBehaviour
     public static bool isEndGame;
     public static GameManager instance;
 
+    public GameObject ballPrefab;
+    public GameObject ballInstance;
+
     private void Awake()
     {
         if (instance != null)
@@ -20,6 +23,7 @@ public class GameManager : MonoBehaviour
     private void Start()
     {
         isEndGame = false;
+        Engagement();
     }
 
     private void Update()
@@ -30,8 +34,21 @@ public class GameManager : MonoBehaviour
         }
     }
 
+    public void Engagement() {
+        Debug.Log("Engagement");
+        SpawnBall();
+        Vector3 force = new Vector3(1,0,-0.05f);
+        ballInstance.GetComponent<Rigidbody>().AddForce(force * 1000);
+    }
+
     public void SpawnBall() {
-        Debug.Log("Respawning ball");
+        Debug.Log("Spawning ball");
+        ballInstance = (GameObject)Instantiate(ballPrefab, new Vector3(0, 0, 0), Quaternion.identity);
+    }
+
+    public void DestroyBall() {
+        Debug.Log("Destroying ball");
+        Destroy(ballInstance);
     }
 
     public void RemoveSideScore(TextMeshProUGUI scoreText) {

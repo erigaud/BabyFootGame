@@ -356,6 +356,7 @@
 -r:"Library/Bee/artifacts/1900b0aE.dag/UnityEngine.UI.ref.dll"
 "Assets/CenterOfMass.cs"
 "Assets/GamelleTrigger.cs"
+"Assets/GameManager.cs"
 "Assets/GoalTrigger.cs"
 "Assets/PlayerMovement.cs"
 -langversion:9.0

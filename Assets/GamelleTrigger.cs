@@ -10,12 +10,10 @@ public class GamelleTrigger : MonoBehaviour
     public string side;
     private void OnTriggerExit(Collider other)
     {
-        int newScore;
         Rigidbody rb = other.GetComponent<Rigidbody>();
         if ((side == "blue" && rb.velocity.z > 0) || (side == "red" && rb.velocity.z < 0))
         {
-            newScore = int.Parse(scoreText.text) - 1;
-            scoreText.text = newScore.ToString();
+            GameManager.instance.RemoveSideScore(scoreText);
         } 
 
     }

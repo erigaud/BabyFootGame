@@ -7,14 +7,15 @@ public class GamelleTrigger : MonoBehaviour
 {
     // Start is called before the first frame update
     public TextMeshProUGUI scoreText;
+    public string side;
     private void OnTriggerExit(Collider other)
     {
         int newScore;
         Rigidbody rb = other.GetComponent<Rigidbody>();
-            if (rb.velocity.z > 0)
+        if ((side == "blue" && rb.velocity.z > 0) || (side == "red" && rb.velocity.z < 0))
         {
-        newScore = int.Parse(scoreText.text) - 1;
-        scoreText.text = newScore.ToString();
+            newScore = int.Parse(scoreText.text) - 1;
+            scoreText.text = newScore.ToString();
         } 
 
     }

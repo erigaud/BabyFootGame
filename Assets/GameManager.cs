@@ -35,19 +35,20 @@ public class GameManager : MonoBehaviour
     }
 
     public void Engagement() {
-        Debug.Log("Engagement");
+        //Debug.Log("Engagement");
         SpawnBall();
-        Vector3 force = new Vector3(1,0,-0.05f);
-        ballInstance.GetComponent<Rigidbody>().AddForce(force * 1000);
+        int side = Random.Range(0, 2) * 2 - 1;
+        Vector3 force = new Vector3(Random.Range(0, 2) * 2 - 1, 0,(0.05f * side));
+        ballInstance.GetComponent<Rigidbody>().AddForce(force * 1500);
     }
 
     public void SpawnBall() {
-        Debug.Log("Spawning ball");
+        //Debug.Log("Spawning ball");
         ballInstance = (GameObject)Instantiate(ballPrefab, new Vector3(0, 0, 0), Quaternion.identity);
     }
 
     public void DestroyBall() {
-        Debug.Log("Destroying ball");
+        //Debug.Log("Destroying ball");
         Destroy(ballInstance);
     }
 
@@ -58,7 +59,7 @@ public class GameManager : MonoBehaviour
 
     public void AddSideScore(TextMeshProUGUI scoreText)
     {
-        Debug.Log("Goal");
+        //Debug.Log("Goal");
         int newScore = int.Parse(scoreText.text) + 1;
         scoreText.text = newScore.ToString();
         SpawnBall();

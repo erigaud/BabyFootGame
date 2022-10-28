@@ -15,7 +15,7 @@ public class PlayerMovement : MonoBehaviour
 
     void Start()
     {
-        _sensitivity_rotation = 0.005f;
+        _sensitivity_rotation = 5f;
         _sensitivity_translation = 0.05f;
         rbody = GetComponent<Rigidbody>();
     }

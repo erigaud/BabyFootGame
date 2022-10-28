@@ -38,6 +38,9 @@ public class PlayerMovement : MonoBehaviour
             // store mouse
             _mouseReference = Input.mousePosition;
         }
+        else {
+            rbody.velocity = new Vector3(0, 0, 0);
+        }
     }
 
     void OnMouseDown()

@@ -15,7 +15,7 @@ public class Ball : MonoBehaviour
     void Update()
     {
         if (rb.velocity.magnitude < 0.40f) {
-            Debug.Log("Add lil force");
+            //Debug.Log("Add lil force");
         }
     }
 }

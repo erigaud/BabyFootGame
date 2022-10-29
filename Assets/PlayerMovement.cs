@@ -15,7 +15,7 @@ public class PlayerMovement : MonoBehaviour
 
     void Start()
     {
-        _sensitivity_rotation = 0.005f;
+        _sensitivity_rotation = 5f;
         _sensitivity_translation = 0.05f;
         rbody = GetComponent<Rigidbody>();
     }
@@ -46,6 +46,7 @@ public class PlayerMovement : MonoBehaviour
     void OnMouseDown()
     {
         // rotating flag
+        Debug.Log("mouse down");
         _isRotating = true;
 
         // store mouse

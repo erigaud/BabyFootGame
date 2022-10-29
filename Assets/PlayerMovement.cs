@@ -46,6 +46,7 @@ public class PlayerMovement : MonoBehaviour
     void OnMouseDown()
     {
         // rotating flag
+        Debug.Log("mouse down");
         _isRotating = true;
 
         // store mouse

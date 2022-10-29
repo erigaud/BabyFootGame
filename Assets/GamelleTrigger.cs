@@ -12,7 +12,7 @@ public class GamelleTrigger : MonoBehaviour
     {
         if (other.gameObject.tag == "Ball") {
                 Rigidbody rb = other.GetComponent<Rigidbody>();
-                if ((side == "blue" && rb.velocity.z > 0) || (side == "red" && rb.velocity.z < 0))
+                if ((side == "blue" && rb.velocity.z < 0) || (side == "red" && rb.velocity.z > 0))
                 {
                     GameManager.instance.RemoveSideScore(scoreText);
                 }

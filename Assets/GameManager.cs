@@ -5,12 +5,17 @@ using UnityEngine;
 
 public class GameManager : MonoBehaviour
 {
+    private bool isReplayMode;
     public static bool isEndGame;
     public static GameManager instance;
 
     public GameObject ballPrefab;
     public GameObject ballInstance;
 
+    public Camera cam1;
+    public Camera cam2;
+
+    private bool mustSpawnBall = false;
     private void Awake()
     {
         if (instance != null)
@@ -28,12 +33,21 @@ public class GameManager : MonoBehaviour
 
     private void Update()
     {
+
+        if (mustSpawnBall)
+        {
+            SpawnBall();
+            mustSpawnBall = false;
+        }
         if (isEndGame)
         {
             return;
         }
     }
-
+    public bool GetIsReplayMode()
+    {
+        return isReplayMode;
+    }
     public void Engagement() {
         //Debug.Log("Engagement");
         SpawnBall();
@@ -62,6 +76,23 @@ public class GameManager : MonoBehaviour
         //Debug.Log("Goal");
         int newScore = int.Parse(scoreText.text) + 1;
         scoreText.text = newScore.ToString();
-        SpawnBall();
+        EnterReplayMode();
+    }
+
+    public void EnterReplayMode()
+    {
+        //Debug.Log("Goal");
+        isReplayMode = true;
+        cam1.enabled = false;
+        cam2.enabled = true;
+        //SpawnBall();
+    }
+
+    public void ExitReplayMode()
+    {
+        isReplayMode = false;
+        cam1.enabled = true;
+        cam2.enabled = false;
+        mustSpawnBall = true;
     }
 }

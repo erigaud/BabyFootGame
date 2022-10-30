@@ -8,9 +8,7 @@ public class ActionReplay : MonoBehaviour
     private GameManager gameManager;
     private bool isInReplayMode;
     private Rigidbody rigidBody;
-    private int currentReplayIndex;
-    public Camera cam1;
-    public Camera cam2;
+    private int currentReplayIndex = 0;
     // Start is called before the first frame update
     void Start()
     {
@@ -21,24 +19,26 @@ public class ActionReplay : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        Debug.Log(gameManager.GetIsReplayMode());
-        if(Input.GetKeyDown(KeyCode.R))
+        isInReplayMode = gameManager.GetIsReplayMode();
+
+        if (isInReplayMode && currentReplayIndex == 0)
         {
-            isInReplayMode = !isInReplayMode;
+            SetTransform(0);
+            rigidBody.isKinematic = true;
+        }
+        else if (currentReplayIndex == actionReplayRecords.Count - 1)
+        {
+            SetTransform(actionReplayRecords.Count - 1);
+            rigidBody.isKinematic = false;
+            currentReplayIndex = 0;
             if (isInReplayMode)
             {
-                cam1.enabled =false;
-                cam2.enabled = true;
-                SetTransform(0);
-                rigidBody.isKinematic = true;
-            } else
-            {
-                SetTransform(actionReplayRecords.Count - 1);
-                rigidBody.isKinematic =false;
-                cam1.enabled = true;
-                cam2.enabled = false;
+                gameManager.ExitReplayMode();
             }
         }
+        
+
+
     }
 
     private void FixedUpdate()
@@ -54,7 +54,6 @@ public class ActionReplay : MonoBehaviour
         } else
         {
             int nextIndex = currentReplayIndex + 1;
-
             if (nextIndex < actionReplayRecords.Count)
             { 
                 SetTransform(nextIndex);

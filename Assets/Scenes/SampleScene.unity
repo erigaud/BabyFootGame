@@ -2940,8 +2940,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 84e7a3c48a7a7ef409d1bc89b55a28ac, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  cam1: {fileID: 963194227}
-  cam2: {fileID: 1357589924}
 --- !u!4 &1043719309 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 5472564910410581202, guid: ba2fa756eee7dbf4aaeffd03bcf21713, type: 3}
@@ -2977,7 +2975,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   ballPrefab: {fileID: 5472564910410581213, guid: ba2fa756eee7dbf4aaeffd03bcf21713, type: 3}
-  ballInstance: {fileID: 0}
+  ballInstance: {fileID: 1043719307}
+  cam1: {fileID: 963194227}
+  cam2: {fileID: 1357589924}
 --- !u!4 &1064377860
 Transform:
   m_ObjectHideFlags: 0

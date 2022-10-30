@@ -13,6 +13,7 @@ GameObject:
   - component: {fileID: 5502355262590435732}
   - component: {fileID: 2522172856265449899}
   - component: {fileID: 6140857013661163361}
+  - component: {fileID: -2546874853304592799}
   m_Layer: 0
   m_Name: PlayerRow
   m_TagString: Untagged
@@ -173,3 +174,15 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   CenterOfMass2: {x: 0, y: 8.2, z: 0}
   Awake: 0
+--- !u!114 &-2546874853304592799
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3057904016728363412}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 84e7a3c48a7a7ef409d1bc89b55a28ac, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 

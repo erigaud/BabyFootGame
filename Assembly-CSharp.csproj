@@ -62,6 +62,9 @@
     <Compile Include="Assets\CenterOfMass.cs" />
     <Compile Include="Assets\GamelleTrigger.cs" />
     <Compile Include="Assets\Ball.cs" />
+    <Compile Include="Assets\ActionReplayRecord.cs" />
+    <Compile Include="Assets\ActionReplay.cs" />
+    <Compile Include="Assets\CameraFollow.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Assets\TextMesh Pro\Shaders\TMPro.cginc" />

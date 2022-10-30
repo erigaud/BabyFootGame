@@ -5,12 +5,14 @@ using UnityEngine;
 
 public class GameManager : MonoBehaviour
 {
+    private bool isReplayMode;
     public static bool isEndGame;
     public static GameManager instance;
 
     public GameObject ballPrefab;
     public GameObject ballInstance;
-
+    
+    
     private void Awake()
     {
         if (instance != null)
@@ -33,7 +35,10 @@ public class GameManager : MonoBehaviour
             return;
         }
     }
-
+    public bool GetIsReplayMode()
+    {
+        return isReplayMode;
+    }
     public void Engagement() {
         //Debug.Log("Engagement");
         SpawnBall();
@@ -62,6 +67,7 @@ public class GameManager : MonoBehaviour
         //Debug.Log("Goal");
         int newScore = int.Parse(scoreText.text) + 1;
         scoreText.text = newScore.ToString();
-        SpawnBall();
+        isReplayMode = true;
+        //SpawnBall();
     }
 }

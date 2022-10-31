@@ -53,12 +53,14 @@ public class GameManager : MonoBehaviour
         SpawnBall();
         int side = Random.Range(0, 2) * 2 - 1;
         Vector3 force = new Vector3(Random.Range(0, 2) * 2 - 1, 0,(0.05f * side));
-        ballInstance.GetComponent<Rigidbody>().AddForce(force * 1500);
+        ballInstance.GetComponent<Rigidbody>().AddForce(force * 30);
     }
 
     public void SpawnBall() {
         //Debug.Log("Spawning ball");
         ballInstance = (GameObject)Instantiate(ballPrefab, new Vector3(0, 0, 0), Quaternion.identity);
+        cam2 = GameObject.Find("BallCam").GetComponent<Camera>();
+        SetTargetToReplay(ballInstance.transform);
     }
 
     public void DestroyBall() {
@@ -81,7 +83,6 @@ public class GameManager : MonoBehaviour
 
     public void EnterReplayMode()
     {
-        //Debug.Log("Goal");
         isReplayMode = true;
         cam1.enabled = false;
         cam2.enabled = true;
@@ -94,5 +95,9 @@ public class GameManager : MonoBehaviour
         cam1.enabled = true;
         cam2.enabled = false;
         mustSpawnBall = true;
+    }
+
+    public void SetTargetToReplay(Transform _transform) {
+        GameObject.Find("BallCam").GetComponent<CameraFollow>().target = _transform;
     }
 }

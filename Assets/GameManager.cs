@@ -34,11 +34,11 @@ public class GameManager : MonoBehaviour
     private void Update()
     {
 
-        if (mustSpawnBall)
-        {
-            SpawnBall();
-            mustSpawnBall = false;
-        }
+        //if (mustSpawnBall)
+        //{
+        //    SpawnBall();
+        //    mustSpawnBall = false;
+        //}
         if (isEndGame)
         {
             return;
@@ -86,7 +86,6 @@ public class GameManager : MonoBehaviour
         isReplayMode = true;
         cam1.enabled = false;
         cam2.enabled = true;
-        //SpawnBall();
     }
 
     public void ExitReplayMode()
@@ -95,6 +94,8 @@ public class GameManager : MonoBehaviour
         cam1.enabled = true;
         cam2.enabled = false;
         mustSpawnBall = true;
+        DestroyBall();
+        SpawnBall();
     }
 
     public void SetTargetToReplay(Transform _transform) {

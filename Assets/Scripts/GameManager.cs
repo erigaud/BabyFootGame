@@ -6,12 +6,12 @@ using UnityEngine;
 public class GameManager : MonoBehaviour
 {
     private bool isReplayMode;
+    private TextMeshProUGUI replayText;
+
     public static bool isEndGame;
     public static GameManager instance;
-
     public GameObject ballPrefab;
     public GameObject ballInstance;
-
     public Camera cam1;
     public Camera cam2;
 
@@ -28,17 +28,12 @@ public class GameManager : MonoBehaviour
     private void Start()
     {
         isEndGame = false;
+        replayText = GameObject.Find("ReplayText").GetComponent<TextMeshProUGUI>();
         Engagement();
     }
 
     private void Update()
     {
-
-        if (mustSpawnBall)
-        {
-            SpawnBall();
-            mustSpawnBall = false;
-        }
         if (isEndGame)
         {
             return;
@@ -53,16 +48,18 @@ public class GameManager : MonoBehaviour
         SpawnBall();
         int side = Random.Range(0, 2) * 2 - 1;
         Vector3 force = new Vector3(Random.Range(0, 2) * 2 - 1, 0,(0.05f * side));
-        ballInstance.GetComponent<Rigidbody>().AddForce(force * 1500);
+        ballInstance.GetComponent<Rigidbody>().AddForce(force * 30);
     }
 
     public void SpawnBall() {
         //Debug.Log("Spawning ball");
         ballInstance = (GameObject)Instantiate(ballPrefab, new Vector3(0, 0, 0), Quaternion.identity);
+        cam2 = GameObject.Find("BallCam").GetComponent<Camera>();
+        SetTargetToReplay(ballInstance.transform);
     }
 
     public void DestroyBall() {
-        //Debug.Log("Destroying ball");
+        Debug.Log("Destroying ball");
         Destroy(ballInstance);
     }
 
@@ -74,18 +71,20 @@ public class GameManager : MonoBehaviour
     public void AddSideScore(TextMeshProUGUI scoreText)
     {
         //Debug.Log("Goal");
-        int newScore = int.Parse(scoreText.text) + 1;
+        int newScore = int.Parse(scoreText.text) + 5;
         scoreText.text = newScore.ToString();
         EnterReplayMode();
+        if (newScore >= 10) {
+            isEndGame = true;
+        }
     }
 
     public void EnterReplayMode()
     {
-        //Debug.Log("Goal");
         isReplayMode = true;
         cam1.enabled = false;
         cam2.enabled = true;
-        //SpawnBall();
+        replayText.enabled = true;
     }
 
     public void ExitReplayMode()
@@ -94,5 +93,12 @@ public class GameManager : MonoBehaviour
         cam1.enabled = true;
         cam2.enabled = false;
         mustSpawnBall = true;
+        replayText.enabled = false;
+        DestroyBall();
+        SpawnBall();
+    }
+
+    public void SetTargetToReplay(Transform _transform) {
+        GameObject.Find("BallCam").GetComponent<CameraFollow>().target = _transform;
     }
 }

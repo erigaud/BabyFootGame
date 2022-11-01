@@ -7,8 +7,7 @@ public class GoalTrigger : MonoBehaviour
     public TextMeshProUGUI scoreText;
     private void OnTriggerExit(Collider other)
     {
-        if (other.gameObject.tag == "Ball") {
-            GameManager.instance.DestroyBall();
+        if (other.gameObject.tag == "Ball" && !GameManager.instance.GetIsReplayMode()) {
             GameManager.instance.AddSideScore(scoreText);
         }
     }

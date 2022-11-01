@@ -56,15 +56,15 @@
     <Analyzer Include="C:\Program Files (x86)\Microsoft Visual Studio\2019\Community\Common7\IDE\Extensions\Microsoft\Visual Studio Tools for Unity\Analyzers\Microsoft.Unity.Analyzers.dll" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Assets\CameraFollow.cs" />
-    <Compile Include="Assets\PlayerMovement.cs" />
-    <Compile Include="Assets\GoalTrigger.cs" />
-    <Compile Include="Assets\GameManager.cs" />
-    <Compile Include="Assets\CenterOfMass.cs" />
-    <Compile Include="Assets\GamelleTrigger.cs" />
-    <Compile Include="Assets\Ball.cs" />
-    <Compile Include="Assets\ActionReplayRecord.cs" />
-    <Compile Include="Assets\ActionReplay.cs" />
+    <Compile Include="Assets\Scripts\CameraFollow.cs" />
+    <Compile Include="Assets\Scripts\PlayerMovement.cs" />
+    <Compile Include="Assets\Scripts\GoalTrigger.cs" />
+    <Compile Include="Assets\Scripts\GameManager.cs" />
+    <Compile Include="Assets\Scripts\CenterOfMass.cs" />
+    <Compile Include="Assets\Scripts\GamelleTrigger.cs" />
+    <Compile Include="Assets\Scripts\Ball.cs" />
+    <Compile Include="Assets\Scripts\ActionReplayRecord.cs" />
+    <Compile Include="Assets\Scripts\ActionReplay.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Assets\TextMesh Pro\Shaders\TMPro.cginc" />

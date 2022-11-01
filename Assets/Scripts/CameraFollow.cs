@@ -9,8 +9,6 @@ public class CameraFollow : MonoBehaviour
     // Update is called once per frame
     void LateUpdate()
     {
-        if (!GameManager.instance.GetIsReplayMode()) {
-            transform.position = target.position + offset;
-        }
+        transform.position = target.position + offset;
     }
 }

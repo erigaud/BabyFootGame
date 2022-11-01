@@ -6,12 +6,12 @@ using UnityEngine;
 public class GameManager : MonoBehaviour
 {
     private bool isReplayMode;
+    private TextMeshProUGUI replayText;
+
     public static bool isEndGame;
     public static GameManager instance;
-
     public GameObject ballPrefab;
     public GameObject ballInstance;
-
     public Camera cam1;
     public Camera cam2;
 
@@ -28,17 +28,12 @@ public class GameManager : MonoBehaviour
     private void Start()
     {
         isEndGame = false;
+        replayText = GameObject.Find("ReplayText").GetComponent<TextMeshProUGUI>();
         Engagement();
     }
 
     private void Update()
     {
-
-        //if (mustSpawnBall)
-        //{
-        //    SpawnBall();
-        //    mustSpawnBall = false;
-        //}
         if (isEndGame)
         {
             return;
@@ -64,7 +59,7 @@ public class GameManager : MonoBehaviour
     }
 
     public void DestroyBall() {
-        //Debug.Log("Destroying ball");
+        Debug.Log("Destroying ball");
         Destroy(ballInstance);
     }
 
@@ -76,9 +71,12 @@ public class GameManager : MonoBehaviour
     public void AddSideScore(TextMeshProUGUI scoreText)
     {
         //Debug.Log("Goal");
-        int newScore = int.Parse(scoreText.text) + 1;
+        int newScore = int.Parse(scoreText.text) + 5;
         scoreText.text = newScore.ToString();
         EnterReplayMode();
+        if (newScore >= 10) {
+            isEndGame = true;
+        }
     }
 
     public void EnterReplayMode()
@@ -86,6 +84,7 @@ public class GameManager : MonoBehaviour
         isReplayMode = true;
         cam1.enabled = false;
         cam2.enabled = true;
+        replayText.enabled = true;
     }
 
     public void ExitReplayMode()
@@ -94,6 +93,7 @@ public class GameManager : MonoBehaviour
         cam1.enabled = true;
         cam2.enabled = false;
         mustSpawnBall = true;
+        replayText.enabled = false;
         DestroyBall();
         SpawnBall();
     }

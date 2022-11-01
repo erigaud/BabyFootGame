@@ -20,13 +20,12 @@ public class ActionReplay : MonoBehaviour
     void Update()
     {
         isInReplayMode = gameManager.GetIsReplayMode();
-
         if (isInReplayMode && currentReplayIndex == 0)
         {
             SetTransform(0);
             rigidBody.isKinematic = true;
         }
-        else if (currentReplayIndex == actionReplayRecords.Count - 1)
+        else if (currentReplayIndex == actionReplayRecords.Count - 1 && currentReplayIndex != 0)
         {
             SetTransform(actionReplayRecords.Count - 1);
             rigidBody.isKinematic = false;
@@ -43,7 +42,6 @@ public class ActionReplay : MonoBehaviour
 
     private void FixedUpdate()
     {
-
         if (!isInReplayMode)
         {
             actionReplayRecords.Add(new ActionReplayRecord

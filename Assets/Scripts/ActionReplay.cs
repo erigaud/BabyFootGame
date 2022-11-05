@@ -5,21 +5,19 @@ using UnityEngine;
 public class ActionReplay : MonoBehaviour
 {
     private List<ActionReplayRecord> actionReplayRecords = new List<ActionReplayRecord>();
-    private GameManager gameManager;
     private bool isInReplayMode;
     private Rigidbody rigidBody;
     private int currentReplayIndex = 0;
     // Start is called before the first frame update
     void Start()
     {
-        gameManager = GameObject.Find("GameManager").GetComponent<GameManager>();
         rigidBody = GetComponent<Rigidbody>();
     }
 
     // Update is called once per frame
     void Update()
     {
-        isInReplayMode = gameManager.GetIsReplayMode();
+        isInReplayMode = GameManager.instance.GetIsReplayMode();
         if (isInReplayMode && currentReplayIndex == 0)
         {
             SetTransform(0);
@@ -32,7 +30,7 @@ public class ActionReplay : MonoBehaviour
             currentReplayIndex = 0;
             if (isInReplayMode)
             {
-                gameManager.ExitReplayMode();
+                GameManager.instance.ExitReplayMode();
             }
         }
         

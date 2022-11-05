@@ -14,8 +14,12 @@ public class GameManager : MonoBehaviour
     public GameObject ballInstance;
     public Camera cam1;
     public Camera cam2;
+    public Light principalLight;
+    public int maxNumberOfBalls;
 
-    private bool mustSpawnBall = false;
+    public bool isMultiBallEvenement;
+    public bool isBallLightEvenement;
+
     private void Awake()
     {
         if (instance != null)
@@ -28,8 +32,12 @@ public class GameManager : MonoBehaviour
     private void Start()
     {
         isEndGame = false;
+        isMultiBallEvenement = false;
+        isBallLightEvenement = false;
         replayText = GameObject.Find("ReplayText").GetComponent<TextMeshProUGUI>();
         Engagement();
+        //StartCoroutine(BallLightEvenement(20.0f));
+        //StartCoroutine(MultiBallEvenement());
     }
 
     private void Update()
@@ -39,6 +47,16 @@ public class GameManager : MonoBehaviour
             return;
         }
     }
+
+    private void FixedUpdate()
+    {
+        
+    }
+
+    public void GetRandomEvent() { 
+    
+    }
+
     public bool GetIsReplayMode()
     {
         return isReplayMode;
@@ -58,9 +76,9 @@ public class GameManager : MonoBehaviour
         SetTargetToReplay(ballInstance.transform);
     }
 
-    public void DestroyBall() {
-        Debug.Log("Destroying ball");
-        Destroy(ballInstance);
+    public void DestroyBall(GameObject gameObject) {
+        //Debug.Log("Destroying ball");
+        Destroy(gameObject);
     }
 
     public void RemoveSideScore(TextMeshProUGUI scoreText) {
@@ -68,12 +86,18 @@ public class GameManager : MonoBehaviour
         scoreText.text = newScore.ToString();
     }
 
-    public void AddSideScore(TextMeshProUGUI scoreText)
+    public void AddSideScore(string side, Collider other)
     {
         //Debug.Log("Goal");
-        int newScore = int.Parse(scoreText.text) + 5;
+        TextMeshProUGUI scoreText = GameObject.Find(side + "Score").GetComponent<TextMeshProUGUI>();
+        int newScore = int.Parse(scoreText.text) + 1;
         scoreText.text = newScore.ToString();
-        EnterReplayMode();
+        if (NumberOfBalls() == 1) {
+            EnterReplayMode();
+        }
+        else {
+            DestroyBall(other.gameObject);
+        }
         if (newScore >= 10) {
             isEndGame = true;
         }
@@ -92,13 +116,38 @@ public class GameManager : MonoBehaviour
         isReplayMode = false;
         cam1.enabled = true;
         cam2.enabled = false;
-        mustSpawnBall = true;
         replayText.enabled = false;
-        DestroyBall();
+        DestroyBall(ballInstance.gameObject);
         SpawnBall();
+    }
+
+    public int NumberOfBalls() {
+        GameObject[] listOfBall = GameObject.FindGameObjectsWithTag("Ball");
+        return listOfBall.Length;
     }
 
     public void SetTargetToReplay(Transform _transform) {
         GameObject.Find("BallCam").GetComponent<CameraFollow>().target = _transform;
+    }
+
+    public IEnumerator BallLightEvenement(float delay) {
+        principalLight.enabled = false;
+        GameObject.Find("BallLight").GetComponent<Light>().enabled = true;
+        cam1.backgroundColor = Color.black;
+        yield return new WaitForSeconds(delay);
+        principalLight.enabled = true;
+        GameObject.Find("BallLight").GetComponent<Light>().enabled = false;
+        cam1.backgroundColor = Color.blue;
+    }
+
+    public IEnumerator MultiBallEvenement() {
+        isMultiBallEvenement = true;
+        for (int i =0; i<maxNumberOfBalls; i++) {
+            GameObject evenementBallInstance = (GameObject)Instantiate(ballPrefab, ballInstance.transform.position, Quaternion.identity);
+            int side = Random.Range(0, 2) * 2 - 1;
+            Vector3 force = new Vector3(Random.Range(0, 2) * 2 - 1, 0, (0.05f * side));
+            evenementBallInstance.GetComponent<Rigidbody>().AddForce(force * 30);
+            yield return new WaitForSeconds(2.0f);
+        }
     }
 }

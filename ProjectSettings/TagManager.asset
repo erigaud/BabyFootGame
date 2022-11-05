@@ -9,6 +9,8 @@ TagManager:
   - Attack
   - Middle
   - Ball
+  - Red
+  - Blue
   layers:
   - Default
   - TransparentFX

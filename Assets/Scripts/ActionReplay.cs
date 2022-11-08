@@ -20,6 +20,7 @@ public class ActionReplay : MonoBehaviour
         isInReplayMode = GameManager.instance.GetIsReplayMode();
         if (isInReplayMode && currentReplayIndex == 0)
         {
+            Debug.Log("lock");
             SetTransform(0);
             rigidBody.isKinematic = true;
         }
@@ -27,10 +28,11 @@ public class ActionReplay : MonoBehaviour
         {
             SetTransform(actionReplayRecords.Count - 1);
             rigidBody.isKinematic = false;
+            Debug.Log("unlock");
             currentReplayIndex = 0;
-            if (isInReplayMode)
+            if (isInReplayMode && this.tag == "Ball")
             {
-                GameManager.instance.ExitReplayMode();
+                GameManager.instance.ExitReplayMode(this.transform.parent.gameObject);
             }
         }
         

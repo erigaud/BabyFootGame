@@ -17,8 +17,10 @@ public class GameManager : MonoBehaviour
     public Light principalLight;
     public int maxNumberOfBalls;
 
-    public bool isMultiBallEvenement;
-    public bool isBallLightEvenement;
+    private float timer;
+    private float intervalGenerateEvents;
+    public Dictionary<string, int> dictEventActive;
+    private List<string> listOfEvents;
 
     private void Awake()
     {
@@ -31,12 +33,17 @@ public class GameManager : MonoBehaviour
 
     private void Start()
     {
+        timer = 0;
+        intervalGenerateEvents = 6.0f;
         isEndGame = false;
-        isMultiBallEvenement = false;
-        isBallLightEvenement = false;
+        listOfEvents = new List<string>();
+        listOfEvents.Add("MultiBallEvenement");
+        listOfEvents.Add("BallLightEvenement");
+        dictEventActive = new Dictionary<string, int>();
+        dictEventActive["MultiBallEvenement"] = 0;
+        dictEventActive["BallLightEvenement"] = 0;
         replayText = GameObject.Find("ReplayText").GetComponent<TextMeshProUGUI>();
         Engagement();
-        StartCoroutine(MultiBallEvenement());
     }
 
     private void Update()
@@ -49,11 +56,31 @@ public class GameManager : MonoBehaviour
 
     private void FixedUpdate()
     {
-        
+        if (timer >= intervalGenerateEvents && !GetIsReplayMode()) {
+            timer = 0;
+            string nameEvent = GetRandomEvent();
+            Debug.Log(nameEvent);
+            if (nameEvent == "MultiBallEvenement") {
+                StartCoroutine(MultiBallEvenement());
+            }
+            else if (nameEvent == "BallLightEvenement") {
+                StartCoroutine(BallLightEvenement(20.0f));
+            }
+        }
+        else
+            timer += Time.deltaTime;
     }
 
-    public void GetRandomEvent() { 
-    
+    public string GetRandomEvent() {
+        float rd = Random.Range(0, 100);
+        if (rd <= 80){
+            int rdEvent = Random.Range(0, listOfEvents.Count);
+            string eventName = listOfEvents[rdEvent];
+            if (dictEventActive[eventName] == 0) {
+                return eventName;
+            }
+        }
+        return "None";
     }
 
     public bool GetIsReplayMode()
@@ -93,6 +120,7 @@ public class GameManager : MonoBehaviour
         Debug.Log(NumberOfBalls());
         GameObject ball = GameObject.FindGameObjectWithTag("Ball").transform.parent.gameObject;
         if (NumberOfBalls() == 1) {
+            dictEventActive["MultiBallEvenement"] = 0;
             EnterReplayMode(ball);
         }
         else {
@@ -126,28 +154,47 @@ public class GameManager : MonoBehaviour
         return listOfBall.Length;
     }
 
-    public void SetTargetToReplay(Transform _transform) {
-        //GameObject.Find("BallCam").GetComponent<CameraFollow>().target = _transform;
-    }
-
     public IEnumerator BallLightEvenement(float delay) {
+        dictEventActive["BallLightEvenement"] = 1;
         principalLight.enabled = false;
-        GameObject.Find("BallLight").GetComponent<Light>().enabled = true;
         cam1.backgroundColor = Color.black;
+        EnableLightOnBalls();
         yield return new WaitForSeconds(delay);
-        principalLight.enabled = true;
-        GameObject.Find("BallLight").GetComponent<Light>().enabled = false;
+        DisableLightOnBalls();
         cam1.backgroundColor = Color.blue;
+        dictEventActive["BallLightEvenement"] = 0;
+        principalLight.enabled = true;
     }
 
     public IEnumerator MultiBallEvenement() {
-        isMultiBallEvenement = true;
+        dictEventActive["MultiBallEvenement"] = 1;
         for (int i =0; i<maxNumberOfBalls; i++) {
             GameObject evenementBallInstance = (GameObject)Instantiate(ballPrefab, ballInstance.transform.position, Quaternion.identity);
             int side = Random.Range(0, 2) * 2 - 1;
             Vector3 force = new Vector3(Random.Range(0, 2) * 2 - 1, 0, (0.05f * side));
             evenementBallInstance.transform.Find("BallBody").GetComponent<Rigidbody>().AddForce(force * 30);
             yield return new WaitForSeconds(2.0f);
+        }
+        if (dictEventActive["BallLightEvenement"] == 1) {
+            EnableLightOnBalls();
+        }
+    }
+
+    public void EnableLightOnBalls() {
+        GameObject[] listOfBall = GameObject.FindGameObjectsWithTag("Ball");
+        for (int i = 0; i < listOfBall.Length; i++)
+        {
+            listOfBall[i].GetComponentInChildren<Light>().enabled = true;
+            listOfBall[i].GetComponentInChildren<Light>().enabled = true;
+        }
+    }
+
+    public void DisableLightOnBalls() {
+        GameObject[] listOfBall = GameObject.FindGameObjectsWithTag("Ball");
+        for (int i = 0; i < listOfBall.Length; i++)
+        {
+            listOfBall[i].GetComponentInChildren<Light>().enabled = false;
+            listOfBall[i].GetComponentInChildren<Light>().enabled = false;
         }
     }
 }

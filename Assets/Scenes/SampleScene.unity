@@ -3040,7 +3040,7 @@ MonoBehaviour:
   ballPrefab: {fileID: 539552380325918746, guid: e687acd535f61f147becdd6f23812783, type: 3}
   cam1: {fileID: 963194227}
   principalLight: {fileID: 705507994}
-  maxNumberOfBalls: 1
+  maxNumberOfBalls: 4
   isMultiBallEvenement: 0
   isBallLightEvenement: 0
 --- !u!4 &1064377860
